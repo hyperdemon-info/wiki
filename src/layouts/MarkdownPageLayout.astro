@@ -1,0 +1,57 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+
+const githubEditBaseUrl =
+	"https://github.com/MarcusOtter/hyperdemon-wiki/tree/main";
+const { headings } = Astro.props;
+
+const currentPage = Astro.url.pathname;
+const currentFile = `src/pages${currentPage.replace(/\/$/, "")}.md`;
+const githubEditUrl = `${githubEditBaseUrl}/${currentFile}`;
+---
+
+<BaseLayout>
+	<div class="container">
+		<Sidebar headings={headings} editUrl={githubEditUrl} />
+		<main>
+			<slot />
+		</main>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	main h1 {
+		font-size: 5rem;
+		transform: translateY(-7rem);
+	}
+
+	main h1 + * {
+		margin-top: -5.5rem;
+	}
+
+	.container {
+		/* display: flex; */
+		margin: 5rem auto 0 auto;
+		max-width: 100ch;
+	}
+
+	main {
+		padding: 2ch;
+		background-color: #00000099;
+		height: auto;
+	}
+
+	p {
+		margin-bottom: 1em;
+	}
+
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-top: 2em;
+		margin-bottom: 0.25em;
+	}
+</style>
