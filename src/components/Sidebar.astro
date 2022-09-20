@@ -1,0 +1,104 @@
+---
+import type { MarkdownHeading } from "astro";
+
+export interface Props {
+	headings: MarkdownHeading[];
+	editUrl: string;
+}
+
+const { headings, editUrl } = Astro.props;
+const mainHeading = headings.find(x => x.depth === 1);
+const otherHeadings = headings.filter(x => x.depth !== 1);
+---
+
+<nav>
+	<h2>{mainHeading?.text}</h2>
+	<ul>
+		{
+			otherHeadings?.map(heading => (
+				<li>
+					<a
+						href={`#${heading.slug}`}
+						class={`indent-${heading.depth}`}
+					>
+						{heading.text}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+
+	<section class="actions">
+		<a href={editUrl}>Edit this page</a>
+	</section>
+</nav>
+
+<style>
+	nav {
+		padding: 1em;
+		background-color: #00000099;
+		width: fit-content;
+		min-width: 250px;
+		position: sticky;
+		transform: translateX(-15rem) translateY(13.2rem);
+		top: 0;
+		max-height: fit-content;
+	}
+
+	.actions {
+		margin-top: 1em;
+	}
+
+	h2 {
+		margin-top: 0;
+		margin-bottom: 0.25em;
+		font-size: 1.1rem;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		font-size: 0.9rem;
+	}
+
+	ul a {
+		text-decoration: none;
+		display: inline-block;
+		height: 100%;
+		width: 100%;
+		padding-top: 0.2em;
+		padding-bottom: 0.2em;
+		border-left: 4px solid #ffffff33;
+	}
+
+	ul a:hover {
+		color: white;
+		border-left: 4px solid white;
+	}
+
+	li {
+		list-style-type: none;
+	}
+
+	li:hover {
+		background-color: #ffffff33;
+	}
+
+	.indent-2 {
+		/* font-size: 1.1em; */
+		padding-left: 2ch;
+	}
+
+	.indent-3 {
+		padding-left: 4ch;
+	}
+	.indent-4 {
+		padding-left: 6ch;
+	}
+	.indent-5 {
+		padding-left: 8ch;
+	}
+	.indent-6 {
+		padding-left: 10ch;
+	}
+</style>
